@@ -1,0 +1,41 @@
+name: 'Login Rancher'
+description: 'Login Rancher with AD account and generate a token'
+inputs:
+  cluster_name:  
+    description: 'Workload cluster name'
+    required: true
+    default: ''
+  rancher_server:  
+    description: 'FQDN for the Rancher managment server'
+    required: true
+    default: ''
+  username:  
+    description: 'AD account username'
+    required: true
+    default: ''
+  password:
+    description: 'AD account password'
+    required: true
+    default: ''
+outputs:
+  kube_token:
+    description: "kube token"
+    value: ${{ steps.get-auth.outputs.kube_token }}
+  kubeapi_server:
+    description: "kubeapi server"
+    value: ${{ steps.get-auth.outputs.kubeapi_server }}
+  kubeconfig_base64:
+    description: "kubeconfig base64 content"
+    value: ${{ steps.get-auth.outputs.kubeconfig_base64 }}
+runs:
+  using: "composite"
+  steps:
+
+    - id: get-auth
+      run: ${{ github.action_path }}/gen_token.sh
+      shell: bash
+      env: 
+        CLUSTER_NAME: ${{ inputs.cluster_name }}
+        RANCHER_SERVER: ${{ inputs.rancher_server }}        
+        USERNAME: ${{ inputs.username }}        
+        PASSWORD: ${{ inputs.password }}        
