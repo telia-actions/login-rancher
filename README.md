@@ -34,8 +34,8 @@ This action logs in to Rancher and generate a token which can be used to access 
         uses: <replace with github repo>/login-rancher
         name: Login
         with:
-          cluster_name: wl004-t
-          rancher_server: tcsmgmt-t.tcs.teliacompany.net
+          cluster_name: workload_cluster_1
+          rancher_server: rancher.example.com
           username: ${{ secrets.RANCHER_USER }}
           password: ${{ secrets.RANCHER_PASS }}
 ```
@@ -53,13 +53,13 @@ on:
 jobs:
   login:
     name: Generate token to access clusters 
-    runs-on: [telia-managed, Linux, X64, small]
+    runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2 
         name: Checkout  
 
       - id: generate-rancher-auth
-        uses: telia-actions/login-rancher@v1
+        uses: <replace with github repo>/login-rancher
         name: Login
         with:
           cluster_name: workload_cluster_1
