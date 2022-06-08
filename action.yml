@@ -24,6 +24,9 @@ outputs:
   kubeapi_server:
     description: "kubeapi server"
     value: ${{ steps.get-auth.outputs.kubeapi_server }}
+  kubeapi_server_ace:
+    description: "kubeapi pass by Rancher server"
+    value: ${{ steps.get-auth.outputs.kubeapi_server_ace }}
   kubeconfig_base64:
     description: "kubeconfig base64 content"
     value: ${{ steps.get-auth.outputs.kubeconfig_base64 }}

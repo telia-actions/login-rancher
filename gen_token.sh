@@ -43,10 +43,13 @@ KUBECONFIG=$(curl --noproxy '*' -s -u $RANCHER_TOKEN https://$RANCHER_SERVER/v3/
 # Get access token and api server from kubeconfig
 TOKEN=$(echo $KUBECONFIG | base64 -d | awk '/token:/ {print $2}')
 SERVER=$(echo $KUBECONFIG | base64 -d | awk '/server:/ {print $2}')
+SERVER_RANCHER=$(echo $SERVER | awk '{print $1}')
+SERVER_ACE=$(echo $SERVER | awk '{print $2}')
 
 # Set output
 echo ::add-mask::$KUBECONFIG
 echo ::set-output name=kubeconfig_base64::$KUBECONFIG
 echo ::add-mask::$TOKEN
 echo ::set-output name=kube_token::$TOKEN
-echo ::set-output name=kubeapi_server::$SERVER
+echo ::set-output name=kubeapi_server::$SERVER_RANCHER
+echo ::set-output name=kubeapi_server_ace::$SERVER_ACE

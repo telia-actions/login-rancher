@@ -20,7 +20,9 @@ This action logs in to Rancher and generate a token which can be used to access 
 
 ### `kube_token`: The token that you can use to run kubectl.
 
-### `kubeapi_server`: The kubeapi_server that you can use to run kubectl.
+### `kubeapi_server`: The default rancher kubeapi_server that you can use to run kubectl.
+
+### `kkubeapi_server_ace`: The Authorized Cluster Endpoints server that you can use to run kubectl.
 
 ### `kubeconfig_base64`: The base64 kubeconfig content.
 
@@ -32,8 +34,8 @@ This action logs in to Rancher and generate a token which can be used to access 
         uses: <replace with github repo>/login-rancher
         name: Login
         with:
-          cluster_name: workload_cluster_1
-          rancher_server: rancher.example.com
+          cluster_name: wl004-t
+          rancher_server: tcsmgmt-t.tcs.teliacompany.net
           username: ${{ secrets.RANCHER_USER }}
           password: ${{ secrets.RANCHER_PASS }}
 ```
@@ -51,13 +53,13 @@ on:
 jobs:
   login:
     name: Generate token to access clusters 
-    runs-on: [ubuntu-latest]
+    runs-on: [telia-managed, Linux, X64, small]
     steps:
       - uses: actions/checkout@v2 
         name: Checkout  
 
       - id: generate-rancher-auth
-        uses: <replace with github repo>/login-rancher
+        uses: telia-actions/login-rancher@v1
         name: Login
         with:
           cluster_name: workload_cluster_1
@@ -70,23 +72,27 @@ jobs:
         with:
             version: 'v*'
         
-      - name: Check node in the cluster with token
+      - name: Check namespace in the cluster with token and default rancher server
         run: |
-          kubectl get node \
+          kubectl get namespace \
             --token=${{ steps.generate-rancher-auth.outputs.kube_token }} \
             --server=${{ steps.generate-rancher-auth.outputs.kubeapi_server }}
+
+      - name: Check namespace in the cluster with token and Authorized Cluster Endpoints server
+        run: |
+          kubectl get namespace \
+            --token=${{ steps.generate-rancher-auth.outputs.kube_token }} \
+            --server=${{ steps.generate-rancher-auth.outputs.kubeapi_server_ace }} 
 ```
 
 Recommand to use token as example below. but kubeconfig is also a possible option.
 ```yaml
-      - name: Check node in the cluster with kubeconfig
+      - name: Check namespace in the cluster with kubeconfig
         run: |
           echo ${{ steps.generate-rancher-auth.outputs.kubeconfig_base64 }} | base64 -d > kubeconfig
           export KUBECONFIG=./kubeconfig
-          kubectl get node
+          kubectl get namespace
 ```
-
-
 
 
 
