@@ -53,5 +53,5 @@ echo ::add-mask::$TOKEN
 echo ::set-output name=kube_token::$TOKEN
 echo ::set-output name=kubeapi_server::$SERVER_RANCHER
 echo ::set-output name=kubeapi_server_ace::$SERVER_ACE
+echo ::add-mask::$RANCHER_TOKEN
 echo ::set-output name=temporary_kube_token::$RANCHER_TOKEN
-
