@@ -91,12 +91,6 @@ jobs:
           kubectl get namespace \
             --token=${{ steps.generate-rancher-auth.outputs.temporary_kube_token }} \
             --server=${{ steps.generate-rancher-auth.outputs.kubeapi_server }}
-
-      - name: List Helm releases in the cluster with temporary token and default rancher server
-        run: |
-          helm list \
-            --kube-token=${{ steps.generate-rancher-auth.outputs.temporary_kube_token }} \
-            --kube-apiserver=${{ steps.generate-rancher-auth.outputs.kubeapi_server }}
 ```
 
 We recommand to use token and server as the examples above but using the kubeconfig is also a possible option.
@@ -106,13 +100,4 @@ We recommand to use token and server as the examples above but using the kubecon
           echo ${{ steps.generate-rancher-auth.outputs.kubeconfig_base64 }} | base64 -d > kubeconfig
           export KUBECONFIG=./kubeconfig
           kubectl get namespace
-
-      - name: List Helm releases in the cluster with kubeconfig
-        run: |
-          echo ${{ steps.generate-rancher-auth.outputs.kubeconfig_base64 }} | base64 -d > kubeconfig
-          export KUBECONFIG=./kubeconfig
-          helm list
 ```
-
-
-
