@@ -26,6 +26,8 @@ This action logs in to Rancher and generate a token which can be used to access 
 
 ### `kubeconfig_base64`: The base64 kubeconfig content.
 
+### `temporary_kube_token`: A temporary token that you can use to run kubectl which will be expired (usually after 24 hours).
+
 
 ## Example usage
 
@@ -82,10 +84,16 @@ jobs:
         run: |
           kubectl get namespace \
             --token=${{ steps.generate-rancher-auth.outputs.kube_token }} \
-            --server=${{ steps.generate-rancher-auth.outputs.kubeapi_server_ace }} 
+            --server=${{ steps.generate-rancher-auth.outputs.kubeapi_server_ace }}
+
+      - name: Check namespace in the cluster with temporary token and default rancher server
+        run: |
+          kubectl get namespace \
+            --token=${{ steps.generate-rancher-auth.outputs.temporary_kube_token }} \
+            --server=${{ steps.generate-rancher-auth.outputs.kubeapi_server }}
 ```
 
-Recommand to use token as example below. but kubeconfig is also a possible option.
+We recommand to use token and server as the examples above but using the kubeconfig is also a possible option.
 ```yaml
       - name: Check namespace in the cluster with kubeconfig
         run: |
@@ -93,6 +101,3 @@ Recommand to use token as example below. but kubeconfig is also a possible optio
           export KUBECONFIG=./kubeconfig
           kubectl get namespace
 ```
-
-
-

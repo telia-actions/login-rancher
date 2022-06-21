@@ -41,10 +41,10 @@ fi
 KUBECONFIG=$(curl --noproxy '*' -s -u $RANCHER_TOKEN https://$RANCHER_SERVER/v3/clusters/$CLUSTER_ID?action=generateKubeconfig -X POST -H 'content-type: application/json' | jq -r .config | base64 -w0)   
 
 # Get access token and api server from kubeconfig
-TOKEN=$(echo $KUBECONFIG | base64 -d | awk '/token:/ {print $2}')
-SERVER=$(echo $KUBECONFIG | base64 -d | awk '/server:/ {print $2}')
-SERVER_RANCHER=$(echo $SERVER | awk '{print $1}')
-SERVER_ACE=$(echo $SERVER | awk '{print $2}')
+TOKEN=$(echo $KUBECONFIG | base64 -d | awk '/token:/ {print $2}' | awk '{gsub(/"/,"")};1')
+SERVER=$(echo $KUBECONFIG | base64 -d | awk '/server:/ {print $2}' | awk '{gsub(/"/,"")};1')
+SERVER_RANCHER=$(echo $SERVER | awk '{print $1}' | awk '{gsub(/"/,"")};1')
+SERVER_ACE=$(echo $SERVER | awk '{print $2}' | awk '{gsub(/"/,"")};1')
 
 # Set output
 echo ::add-mask::$KUBECONFIG
@@ -53,3 +53,5 @@ echo ::add-mask::$TOKEN
 echo ::set-output name=kube_token::$TOKEN
 echo ::set-output name=kubeapi_server::$SERVER_RANCHER
 echo ::set-output name=kubeapi_server_ace::$SERVER_ACE
+echo ::add-mask::$RANCHER_TOKEN
+echo ::set-output name=temporary_kube_token::$RANCHER_TOKEN

@@ -30,6 +30,9 @@ outputs:
   kubeconfig_base64:
     description: "kubeconfig base64 content"
     value: ${{ steps.get-auth.outputs.kubeconfig_base64 }}
+  temporary_kube_token:
+    description: "temporary kube token"
+    value: ${{ steps.get-auth.outputs.temporary_kube_token }}
 runs:
   using: "composite"
   steps:
