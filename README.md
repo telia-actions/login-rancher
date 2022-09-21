@@ -22,7 +22,7 @@ This action logs in to Rancher and generate a token which can be used to access 
 
 ### `kubeapi_server`: The default rancher kubeapi_server that you can use to run kubectl.
 
-### `kkubeapi_server_ace`: The Authorized Cluster Endpoints server that you can use to run kubectl.
+### `kubeapi_server_ace`: The Authorized Cluster Endpoints server that you can use to run kubectl.
 
 ### `kubeconfig_base64`: The base64 kubeconfig content.
 
