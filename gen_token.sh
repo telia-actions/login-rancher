@@ -48,10 +48,10 @@ SERVER_ACE=$(echo $SERVER | awk '{print $2}' | awk '{gsub(/"/,"")};1')
 
 # Set output
 echo ::add-mask::$KUBECONFIG
-echo ::set-output name=kubeconfig_base64::$KUBECONFIG
+echo kubeconfig_base64=$KUBECONFIG >> $GITHUB_OUTPUT
 echo ::add-mask::$TOKEN
-echo ::set-output name=kube_token::$TOKEN
-echo ::set-output name=kubeapi_server::$SERVER_RANCHER
-echo ::set-output name=kubeapi_server_ace::$SERVER_ACE
+echo kube_token=$TOKEN >> $GITHUB_OUTPUT
+echo kubeapi_server=$SERVER_RANCHER >> $GITHUB_OUTPUT
+echo kubeapi_server_ace=$SERVER_ACE >> $GITHUB_OUTPUT
 echo ::add-mask::$RANCHER_TOKEN
-echo ::set-output name=temporary_kube_token::$RANCHER_TOKEN
+echo temporary_kube_token=$RANCHER_TOKEN >> $GITHUB_OUTPUT
