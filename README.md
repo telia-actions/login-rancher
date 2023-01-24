@@ -22,7 +22,7 @@ This action logs in to Rancher and generate a token which can be used to access 
 
 ### `kubeapi_server`: The default rancher kubeapi_server that you can use to run kubectl.
 
-### `kkubeapi_server_ace`: The Authorized Cluster Endpoints server that you can use to run kubectl.
+### `kubeapi_server_ace`: The Authorized Cluster Endpoints server that you can use to run kubectl.
 
 ### `kubeconfig_base64`: The base64 kubeconfig content.
 
@@ -57,7 +57,7 @@ jobs:
     name: Generate token to access clusters 
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2 
+      - uses: actions/checkout@v3 
         name: Checkout  
 
       - id: generate-rancher-auth
@@ -70,7 +70,7 @@ jobs:
           password: ${{ secrets.RANCHER_PASS }}
 
       - name: Setup Kubectl
-        uses: telia-actions/setup-kubectl@v1
+        uses: azure/setup-kubectl@v3
         with:
             version: 'v*'
         
