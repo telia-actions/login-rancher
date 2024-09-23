@@ -55,9 +55,9 @@ on:
 jobs:
   login:
     name: Generate token to access clusters 
-    runs-on: [ubuntu-latest]
+    runs-on: [......]
     steps:
-      - uses: actions/checkout@v3 
+      - uses: actions/checkout@v4 
         name: Checkout  
 
       - id: generate-rancher-auth
@@ -70,7 +70,7 @@ jobs:
           password: ${{ secrets.RANCHER_PASS }}
 
       - name: Setup Kubectl
-        uses: azure/setup-kubectl@v3
+        uses: azure/setup-kubectl@v4
         with:
             version: 'v*'
         
