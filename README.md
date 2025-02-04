@@ -1,4 +1,4 @@
-# login-rancher Github Action
+# login-rancher-with-provider Github Action
 
 This action logs in to Rancher and generate a token which can be used to access a Rancher managed kubernetes cluster.
 
@@ -15,6 +15,9 @@ This action logs in to Rancher and generate a token which can be used to access 
 
 ### `password`
 **Required**: AD account password.
+
+### `provider`
+**Optional**: Provider name. Example: openLdapProviders. Default: activeDirectoryProviders.
 
 ## Outputs
 

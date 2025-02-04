@@ -17,6 +17,10 @@ inputs:
     description: 'AD account password'
     required: true
     default: ''
+  provider:
+    description: 'Provider name'
+    required: false
+    default: 'activeDirectoryProviders'
 outputs:
   kube_token:
     description: "kube token"
@@ -44,4 +48,5 @@ runs:
         CLUSTER_NAME: ${{ inputs.cluster_name }}
         RANCHER_SERVER: ${{ inputs.rancher_server }}        
         USERNAME: ${{ inputs.username }}        
-        PASSWORD: ${{ inputs.password }}        
+        PASSWORD: ${{ inputs.password }}
+        PROVIDER: ${{ inputs.provider }}

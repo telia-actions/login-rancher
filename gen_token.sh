@@ -11,12 +11,14 @@ check_env()
     [ -n "$var_unset" ] && exit 1
     return 0
 }
-check_env USERNAME PASSWORD RANCHER_SERVER CLUSTER_NAME
+check_env USERNAME PASSWORD RANCHER_SERVER CLUSTER_NAME PROVIDER
 
-# Use username and passwork to log in Rancher and get a token
+PROVIDER_PREFIX=$(echo "$PROVIDER" | sed 's/Provider[^Provider]*$//' | tr '[:upper:]' '[:lower:]')
+
+# Use username and password to log in Rancher and get a token
 get_rancher_token()
 {
-    curl -s --noproxy '*' -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"username":"'"$USERNAME"'","password":"'"$PASSWORD"'"}' https://$RANCHER_SERVER/v3-public/activeDirectoryProviders/activedirectory?action=login
+    curl -s --noproxy '*' -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' -d '{"username":"'"$USERNAME"'","password":"'"$PASSWORD"'"}' https://$RANCHER_SERVER/v3-public/$PROVIDER/$PROVIDER_PREFIX?action=login
 }
 
 RANCHER_TOKEN=$(get_rancher_token | jq -j .token)
